@@ -19,8 +19,8 @@
             .lazy = true,
         },
         .godot = .{
-            .url = "git+https://github.com/gdzig/godot-versions.git#92c55bacea96516419b3cac21d1e6b4d9ee674a0",
-            .hash = "godot-0.0.0-Nast2j23BgBhYeXm_8jcTuFT0N5B44EvLKt-YzEiOqcp",
+            .url = "git+https://github.com/claytercek/godot-versions#4e7176ef6b583898752e61fc6e46a7f929b3511c",
+            .hash = "godot-0.0.0-Nast2tcyBwCdKTy_KgdERhxFFgRw32tF6m4TaksjNfkl",
         },
         .oopz = .{
             .url = "git+https://github.com/gdzig/oopz#e37ece30bdafc185e88a4bb5d9869115c8d8503f",
