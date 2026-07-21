@@ -101,7 +101,22 @@ pub fn MethodConfig(comptime Class: type) type {
                         return Variant.nil;
                     } else {
                         const result = @call(.auto, method, call_args);
-                        return Variant.init(ReturnType, result);
+                        const variant = Variant.init(ReturnType, result);
+                        // A bound method returning a RefCounted pointer hands
+                        // back a reference it already owns -- the same "callee
+                        // returns owned" convention the ptrcall and virtual
+                        // return paths rely on (they pass the pointer through
+                        // raw; see ptrcall.writeReturn and vtable.zig).
+                        // Variant.init just added a second, share-semantics
+                        // reference; drop it so the Variant adopts the
+                        // method's own reference instead. Without this, every
+                        // Variant-path invocation (Object.call, untyped
+                        // GDScript, the inspector reading a Ref-typed
+                        // property) of such a method leaks one reference.
+                        if (comptime class.isRefCountedPtr(ReturnType)) {
+                            _ = class.RefCounted.upcast(result).unreference();
+                        }
+                        return variant;
                     }
                 }
 
